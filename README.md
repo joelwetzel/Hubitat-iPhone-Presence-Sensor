@@ -1,4 +1,4 @@
-# iPhone Presence Sensor for Hubitat
+# iPhone WiFi Presence Sensor for Hubitat
 A virtual presence sensor for Hubitat that checks if an iPhone is on the WiFi network.
 
 Note: iPhones can put their WiFi to sleep, so you should not use this as your only way of detecting presence.  However, it can be used to augment other presence sensors.  Interpret results this way:
