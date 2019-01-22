@@ -14,7 +14,8 @@
  *
  */
 
-
+import groovy.json.*
+	
 metadata {
 	definition (name: "iPhone WiFi Presence Sensor", namespace: "joelwetzel", author: "Joel Wetzel") {
 		capability "Refresh"
@@ -62,6 +63,10 @@ def refresh() {
         sendEvent(name: "presence", value: "not present", linkText: deviceName, descriptionText: descriptionText)
     }
     
+	if (ipAddress == null || ipAddress.size() == 0) {
+		return
+	}
+	
 	asynchttpGet("httpGetCallback", [
 		uri: "http://${ipAddress}/"	
 	]);
@@ -69,9 +74,9 @@ def refresh() {
 
 
 def httpGetCallback(response, data) {
-	//log.debug "${device.displayName}: httpGetCallback(response, data)"
+	//log.debug "${device.displayName}: httpGetCallback(${groovy.json.JsonOutput.toJson(response)}, data)"
 	
-	if (response != null && response instanceof Map && response.status == 408) {
+	if (response != null && response instanceof Map && response.status == 408 && response.errorMessage.contains("Connection refused")) {
 		state.tryCount = 0
 		
 		if (device.currentValue('presence') != "present") {
