@@ -10,6 +10,7 @@ Note: iPhones can put their WiFi to sleep, so you should not use this as your on
 I only have iPhone devices to test with, but other users have reported it working with the following Android devices.  I cannot provide support for Android myself though.
 - Nexus 5x
 - Pixel XL
+- Pixel 3XL
 - S9
 - Nokia 6
 - Note 9
