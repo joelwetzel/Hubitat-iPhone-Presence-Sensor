@@ -6,6 +6,16 @@ Note: iPhones can put their WiFi to sleep, so you should not use this as your on
 - If this sensor shows "present", the iPhone is DEFINITELY present.
 - If this sensor shows "not present", the iPhone may or may not be present.  We don't know.
 
+## Compatibility
+I only have iPhone devices to test with, but other users have reported it working with the following Android devices.  I cannot provide support for Android myself though.
+- Nexus 5x
+- Pixel XL
+- S9
+- Nokia 6
+- Note 9
+- S8+
+
+
 ## Installation
 1. Open your Hubitat web page
 2. Go to the "Drivers Code" page
