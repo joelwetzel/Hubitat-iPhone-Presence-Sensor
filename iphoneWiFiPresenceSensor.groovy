@@ -31,19 +31,41 @@ metadata {
 				title: "iPhone IP Address",
 				required: true				
 			)
+			input (
+				type: "number",
+				name: "timeoutMinutes",
+				title: "Timeout Minutes",
+				description: "Approximate number of minutes without a response before deciding the device is away/offline.",
+				required: true,
+				defaultValue: 3
+			)
+			input (
+				type: "bool",
+				name: "enableDebugLogging",
+				title: "Enable Debug Logging?",
+				required: true,
+				defaultValue: true
+			)
 		}
 	}
 }
 
 
+def log(msg) {
+	if (enableDebugLogging) {
+		log.debug(msg)	
+	}
+}
+
+
 def installed () {
-	log.debug "${device.displayName}: driver installed"
+	log "${device.displayName}: driver installed"
     updated()
 }
 
 
 def updated () {
-	log.debug "${device.displayName}: driver updated"
+	log "${device.displayName}: driver updated"
     
     state.tryCount = 0
     
@@ -53,13 +75,13 @@ def updated () {
 
 
 def refresh() {
-	//log.debug "${device.displayName}: refresh()"
+	//log "${device.displayName}: refresh()"
 
 	state.tryCount = state.tryCount + 1
     
-    if (state.tryCount > 3 && device.currentValue('presence') != "not present") {
+    if (state.tryCount > (timeoutMinutes < 1 ? 1 : timeoutMinutes) && device.currentValue('presence') != "not present") {
         def descriptionText = "${device.displayName} is OFFLINE";
-        log.debug descriptionText
+        log descriptionText
         sendEvent(name: "presence", value: "not present", linkText: deviceName, descriptionText: descriptionText)
     }
     
@@ -74,14 +96,14 @@ def refresh() {
 
 
 def httpGetCallback(response, data) {
-	//log.debug "${device.displayName}: httpGetCallback(${groovy.json.JsonOutput.toJson(response)}, data)"
+	//log "${device.displayName}: httpGetCallback(${groovy.json.JsonOutput.toJson(response)}, data)"
 	
 	if (response != null && response instanceof Map && response.status == 408 && response.errorMessage.contains("Connection refused")) {
 		state.tryCount = 0
 		
 		if (device.currentValue('presence') != "present") {
 			def descriptionText = "${device.displayName} is ONLINE";
-			log.debug descriptionText
+			log descriptionText
 			sendEvent(name: "presence", value: "present", linkText: deviceName, descriptionText: descriptionText)
 		}
 	}
