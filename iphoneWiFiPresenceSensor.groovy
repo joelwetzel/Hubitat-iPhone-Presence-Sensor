@@ -59,23 +59,23 @@ def log(msg) {
 
 
 def installed () {
-	log "${device.displayName}: driver installed"
+	log.info "${device.displayName}.installed()"
     updated()
 }
 
 
 def updated () {
-	log "${device.displayName}: driver updated"
+	log.info "${device.displayName}.updated()"
     
     state.tryCount = 0
     
-    runEvery1Minute(refresh)
-    runIn(2, refresh)
+    runEvery1Minute(refresh)		// Generally test it every minute.
+    runIn(2, refresh)				// But test it once, right after we install or update it too.
 }
 
 
 def refresh() {
-	//log "${device.displayName}: refresh()"
+	log "${device.displayName}.refresh()"
 
 	state.tryCount = state.tryCount + 1
     
@@ -96,7 +96,7 @@ def refresh() {
 
 
 def httpGetCallback(response, data) {
-	//log "${device.displayName}: httpGetCallback(${groovy.json.JsonOutput.toJson(response)}, data)"
+	//log.debug "${device.displayName}: httpGetCallback(${groovy.json.JsonOutput.toJson(response)}, data)"
 	
 	if (response != null && response instanceof Map && response.status == 408 && response.errorMessage.contains("Connection refused")) {
 		state.tryCount = 0
