@@ -98,7 +98,7 @@ def refresh() {
 def httpGetCallback(response, data) {
 	//log.debug "${device.displayName}: httpGetCallback(${groovy.json.JsonOutput.toJson(response)}, data)"
 	
-	if (response != null && response instanceof Map && response.status == 408 && response.errorMessage.contains("Connection refused")) {
+	if (response != null && response.status == 408 && response.errorMessage.contains("Connection refused")) {
 		state.tryCount = 0
 		
 		if (device.currentValue('presence') != "present") {
