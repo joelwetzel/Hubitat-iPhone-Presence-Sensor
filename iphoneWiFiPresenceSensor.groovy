@@ -46,6 +46,13 @@ metadata {
 				required: true,
 				defaultValue: true
 			)
+            input (
+				type: "bool",
+				name: "enableDevice",
+				title: "Enable Device?",
+				required: true,
+				defaultValue: true
+			)
 		}
 	}
 }
@@ -69,7 +76,16 @@ def updated () {
     
     state.tryCount = 0
     
-    runEvery1Minute(refresh)		// Generally test it every minute.
+	unschedule()
+    
+    if (enableDevice) {
+        runEvery1Minute(refresh)		// Option 1: test it every minute.  Have a 10 second timeout on the requests.
+        state.triesPerMinute = 1
+
+	//schedule("*/15 * * * * ? *", refresh)    // Option 2: run every 15 seconds, but now we have a 10 second timeout on the requests.
+        //state.triesPerMinute = 4
+    }
+    
     runIn(2, refresh)				// But test it once, right after we install or update it too.
 }
 
@@ -79,7 +95,7 @@ def refresh() {
 
 	state.tryCount = state.tryCount + 1
     
-    if (state.tryCount > (timeoutMinutes < 1 ? 1 : timeoutMinutes) && device.currentValue('presence') != "not present") {
+    if ((state.tryCount / state.triesPerMinute) > (timeoutMinutes < 1 ? 1 : timeoutMinutes) && device.currentValue('presence') != "not present") {
         def descriptionText = "${device.displayName} is OFFLINE";
         log descriptionText
         sendEvent(name: "presence", value: "not present", linkText: deviceName, descriptionText: descriptionText)
@@ -90,13 +106,14 @@ def refresh() {
 	}
 	
 	asynchttpGet("httpGetCallback", [
-		uri: "http://${ipAddress}/"	
+		uri: "http://${ipAddress}/",
+        timeout: 10
 	]);
 }
 
 
 def httpGetCallback(response, data) {
-	//log.debug "${device.displayName}: httpGetCallback(${groovy.json.JsonOutput.toJson(response)}, data)"
+	log "${device.displayName}: httpGetCallback(${groovy.json.JsonOutput.toJson(response)}, data)"
 	
 	if (response != null && response.status == 408 && response.errorMessage.contains("Connection refused")) {
 		state.tryCount = 0
