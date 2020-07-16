@@ -1,5 +1,5 @@
 /**
- *  iPhone WiFi Presence Sensor
+ *  iPhone WiFi Presence Sensor v1.0
  *
  *  Copyright 2019 Joel Wetzel
  *
@@ -125,6 +125,4 @@ def httpGetCallback(response, data) {
 		}
 	}
 }
-
-
 
