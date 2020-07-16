@@ -1,0 +1,18 @@
+{
+	"packageName": "iPhone WiFi Presence Sensor",
+	"minimumHEVersion": "2.2.1",
+	"author": "Joel Wetzel",
+	"version": "1.0",
+	"dateReleased": "2020-07-14",
+	"licenseFile": "https://raw.githubusercontent.com/joelwetzel/Hubitat-Auto-Shades/master/LICENSE",
+	"releaseNotes": "Initial release through Hubitat Package Manager.",
+  "drivers" : [
+		{
+			"id": "bf1c4f55-5705-4dfe-97d7-6f92a687d2c5",
+			"name": "iPhone WiFi Presence Sensor",
+			"namespace": "joelwetzel",
+			"location": "https://raw.githubusercontent.com/joelwetzel/Hubitat-iPhone-Presence-Sensor/master/iphoneWiFiPresenceSensor.groovy",
+			"required": true
+		}
+	]
+}
