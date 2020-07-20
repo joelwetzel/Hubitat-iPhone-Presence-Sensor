@@ -18,6 +18,11 @@ I only have iPhone devices to test with, but other users have reported it workin
 
 
 ## Installation
+
+The best way to install this code is by using [Hubitat Package Manager](https://community.hubitat.com/t/beta-hubitat-package-manager).
+
+However, if you must install  manually:
+
 1. Open your Hubitat web page
 2. Go to the "Drivers Code" page
 3. Click "+ New Driver"
