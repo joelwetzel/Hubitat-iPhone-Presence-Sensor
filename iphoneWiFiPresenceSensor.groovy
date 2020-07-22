@@ -1,5 +1,5 @@
 /**
- *  iPhone WiFi Presence Sensor v1.01
+ *  iPhone WiFi Presence Sensor v1.02
  *
  *  Copyright 2019 Joel Wetzel
  *
