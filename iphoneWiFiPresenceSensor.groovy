@@ -1,5 +1,5 @@
 /**
- *  iPhone WiFi Presence Sensor v1.0
+ *  iPhone WiFi Presence Sensor v1.01
  *
  *  Copyright 2019 Joel Wetzel
  *
@@ -12,6 +12,8 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  *
+ *  Release Notes:
+ *  v1.01:  Fixed a bug that could happen if a user updated from an older version of the code, but didn't click "Save Preferences".
  */
 
 import groovy.json.*
@@ -90,10 +92,19 @@ def updated () {
 }
 
 
+def ensureStateVariables() {
+    if (state.triesPerMinute == null) {
+        state.triesPerMinute = 1
+    }
+}
+
+
 def refresh() {
 	log "${device.displayName}.refresh()"
 
 	state.tryCount = state.tryCount + 1
+    
+    ensureStateVariables()
     
     if ((state.tryCount / state.triesPerMinute) > (timeoutMinutes < 1 ? 1 : timeoutMinutes) && device.currentValue('presence') != "not present") {
         def descriptionText = "${device.displayName} is OFFLINE";
@@ -125,4 +136,5 @@ def httpGetCallback(response, data) {
 		}
 	}
 }
+
 
