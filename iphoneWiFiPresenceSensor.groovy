@@ -1,5 +1,5 @@
 /**
- *  iPhone WiFi Presence Sensor v1.02
+ *  iPhone WiFi Presence Sensor v1.03
  *
  *  Copyright 2019 Joel Wetzel
  *
@@ -127,6 +127,7 @@ def httpGetCallback(response, data) {
 	log "${device.displayName}: httpGetCallback(${groovy.json.JsonOutput.toJson(response)}, data)"
 	
 	if (response != null && response.status == 408 && response.errorMessage.contains("Connection refused")) {
+        log "${device.displayName}: httpGetCallback(The following 'connection refused' result means that the hub was SUCCESSFUL in discovering the phone on the network: ${groovy.json.JsonOutput.toJson(response)}, data)"
 		state.tryCount = 0
 		
 		if (device.currentValue('presence') != "present") {
@@ -135,6 +136,11 @@ def httpGetCallback(response, data) {
 			sendEvent(name: "presence", value: "present", linkText: deviceName, descriptionText: descriptionText)
 		}
 	}
+    else {
+        log "${device.displayName}: httpGetCallback(The following result means that the hub was UNSUCCESSFUL in discovering the phone on the network: ${groovy.json.JsonOutput.toJson(response)}, data)"
+
+    }
 }
+
 
 
