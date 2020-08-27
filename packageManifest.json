@@ -2,10 +2,10 @@
 	"packageName": "iPhone WiFi Presence Sensor",
 	"minimumHEVersion": "2.2.1",
 	"author": "Joel Wetzel",
-	"version": "1.02",
-	"dateReleased": "2020-07-22",
+	"version": "1.03",
+	"dateReleased": "2020-08-27",
 	"licenseFile": "https://raw.githubusercontent.com/joelwetzel/Hubitat-Auto-Shades/master/LICENSE",
-	"releaseNotes": "Fixed a bug that could happen if a user updated from an older version of the code, but didn't click Save Preferences.",
+	"releaseNotes": "Now has a less confusing debug log message when successfully finding the phone on the network.",
 	"communityLink": "https://community.hubitat.com/t/updated-iphone-wifi-presence-sensor",
 	"documentationLink": "https://github.com/joelwetzel/Hubitat-iPhone-Presence-Sensor",
   "drivers" : [
