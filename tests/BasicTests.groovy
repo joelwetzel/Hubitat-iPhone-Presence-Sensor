@@ -1,8 +1,6 @@
 package joelwetzel.iphone_presence_sensor.tests
 
-import me.biocomp.hubitat_ci.device.MockAsyncHttpBuilder
-import me.biocomp.hubitat_ci.device.helpers.DeviceHelper
-import me.biocomp.hubitat_ci.util.device_fixtures.DeviceScriptFixtureFactory
+import me.biocomp.hubitat_ci.device.helpers.DeviceScriptHelper
 import me.biocomp.hubitat_ci.validation.Flags
 
 import spock.lang.Specification
@@ -11,11 +9,10 @@ import spock.lang.Specification
 * Basic tests for iphoneWiFiPresenceSensor.groovy
 */
 class BasicTests extends Specification {
-    DeviceHelper deviceHelper = new DeviceHelper()
     def device
 
     def setup() {
-        device = deviceHelper.createDevice(
+        device = DeviceScriptHelper.getDeviceScript(
             scriptFilename: "iphoneWiFiPresenceSensor.groovy",
             userSettingValues: [
                 ipAddress: "192.168.1.100",
