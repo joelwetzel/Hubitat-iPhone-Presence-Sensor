@@ -35,3 +35,35 @@ However, if you must install  manually:
 10. On the device list, click the name of your new sensor
 11. Set "IP Address" to the local static IP address of the iPhone.
 12. Click "Save Preferences"
+
+## Development and Testing
+
+This repository includes integration tests using the [hubitat_ci](https://github.com/biocomp/hubitat_ci) framework.
+
+### Running Tests Locally
+
+To run tests locally, you'll need:
+- Java 11 or higher
+- GitHub Personal Access Token with `read:packages` permission
+
+Set up the environment variables:
+```bash
+export MAVEN_GITHUB_REPOSITORY=joelwetzel/hubitat_ci
+export MAVEN_GITHUB_ACTOR=your-github-username
+export MAVEN_GITHUB_TOKEN=your-github-token
+export MAVEN_ARTIFACT_ID=hubitat_ci
+```
+
+Run the tests:
+```bash
+./gradlew test
+```
+
+### Continuous Integration
+
+The repository uses GitHub Actions for continuous integration. The CI workflow runs automatically on:
+- Push to `main` or `master` branch
+- Pull requests to `main` or `master` branch
+- Manual workflow dispatch
+
+The CI workflow requires the `MAVEN_GITHUB_TOKEN` secret to be configured in the repository settings to access the hubitat_ci package. The token needs at least `read:packages` permission.
